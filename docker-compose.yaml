@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:15
+    ports:
+      - "5432:5432"
+    env_file:
+      - ./ed_platform/.env_postgres
+
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./ed_platform/:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
